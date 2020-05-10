@@ -3,11 +3,11 @@
 #include <cstring>
 #include "cfb.h"
 
-extern "C" void _cipher(char *text, char *vector, char *key);
+extern "C" char * _cipher(char *text, char *vector, char *key);
 extern "C" void _decipher(char *text, char *vector, char *key);
 
 bool Cfb::isInputTextValid(const std::string &newInputText) {
-   return Cfb::validateString(newInputText) && !newInputText.empty() && newInputText.length() <= 100;
+   return !newInputText.empty() && newInputText.length() <= 100;
 }
 
 bool Cfb::isKeyValid(const std::string &newInitializationVector) {
@@ -56,7 +56,7 @@ void Cfb::performDecipher() {
 
         _decipher(cText, cVector, cKey);
 
-        std:: cout <<  "result is: " << this->inputText;
+        std::cout<<std::endl;
 
     }
 }
@@ -72,8 +72,8 @@ void Cfb::performCipher() {
         std::strcpy (cVector, this->initializationVector.c_str());
         std::strcpy (cKey, this->key.c_str());
 
-        _cipher(cText, cVector, cKey);
-        std:: cout <<  "result is: " << this->inputText << std:: endl;
+        printf("%s",_cipher(cText, cVector, cKey));
+	std::cout<<std::endl;
     }
 }
 
