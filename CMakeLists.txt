@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(intel)
+enable_language(ASM_NASM)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_COMPILER g++)
+set(ASM_SOURCES _cipher.asm _decipher.asm)
+set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE ASM_NASM)
+add_executable(intel main.cpp cfb.cpp cfb.h ${ASM_SOURCES})
