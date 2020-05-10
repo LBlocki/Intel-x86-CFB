@@ -56,7 +56,7 @@ void Cfb::performDecipher() {
 
         _decipher(cText, cVector, cKey);
 
-        std:: cout <<  "result is: " << this->inputText;
+        std::cout<<std::endl;
 
     }
 }
@@ -73,7 +73,7 @@ void Cfb::performCipher() {
         std::strcpy (cKey, this->key.c_str());
 
         _cipher(cText, cVector, cKey);
-        std:: cout <<  "result is: " << this->inputText << std:: endl;
+	std::cout<<std::endl;
     }
 }
 
