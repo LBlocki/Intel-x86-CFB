@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include <cstring>
+#include <fstream>
 #include "cfb.h"
 
 extern "C" void _cipher(char *text, char *vector, char *key);
@@ -57,7 +57,15 @@ void Cfb::performDecipher() {
 	    cVector[this->initializationVector.size()] = '\0';
 	    cKey[this->key.size()] = '\0';
             _decipher(cText, cVector, cKey);
-	    std:: cout << "Deciphered text: "<<cText << std::endl;
+        std:: cout << "text written to file deciphered.txt "<< std::endl;
+
+        std::ofstream  myFile;
+        myFile.open ("deciphered.txt");
+        if (myFile.is_open()) {
+            myFile << cText;
+            myFile.close();
+        }
+
 
 	delete[] cText;
 	delete[] cVector;
@@ -80,7 +88,15 @@ void Cfb::performCipher() {
 	    cVector[this->initializationVector.size()] = '\0';
 	    cKey[this->key.size()] = '\0';
             _cipher(cText, cVector, cKey);
-	    std:: cout << "Ciphered text: "<<cText << std::endl;
+	    std:: cout << "text written to file ciphered.txt "<< std::endl;
+
+        std::ofstream  myFile;
+        myFile.open ("ciphered.txt");
+        if (myFile.is_open()) {
+            myFile << cText;
+            myFile.close();
+        }
+
 
 	delete[] cText;
 	delete[] cVector;
