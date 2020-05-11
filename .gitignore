@@ -2,4 +2,7 @@
 cmake-build-debug/
 out
 .cfb*
+<<<<<<< HEAD
 *.o
+=======
+>>>>>>> 614c98d576d7115bb8fe27e3372f4e80300b4a07
