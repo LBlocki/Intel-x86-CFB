@@ -11,11 +11,11 @@ bool Cfb::isInputTextValid(const std::string &newInputText) {
 }
 
 bool Cfb::isKeyValid(const std::string &newInitializationVector) {
-    return Cfb::validateString(newInitializationVector) && newInitializationVector.length() == 4;
+    return Cfb::validateString(newInitializationVector) && newInitializationVector.length() == 8;
 }
 
 bool Cfb::isInitializationVectorValid(const std::string &newKey) {
-    return Cfb::validateString(newKey) && newKey.length() == 4;
+    return Cfb::validateString(newKey) && newKey.length() == 8;
 }
 
 bool Cfb::validateAndSetInputText(const std::string &newInputText) {

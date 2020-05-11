@@ -47,10 +47,10 @@ int main() {
 
 bool readInputText(Cfb *cfb) {
     bool validInput = false;
-    std::string inputText;
+    std::string inputText = "ijklmnop";
 
-    std::cout << "Enter text(max 100 bytes):";
-    std::getline(std:: cin, inputText);
+    //std::cout << "Enter text(max 100 bytes):";
+    //std::getline(std:: cin, inputText);
 
     if (!cfb->validateAndSetInputText(inputText)) {
         std::cout << "Error while saving text. Please try again." << std::endl;
@@ -64,10 +64,10 @@ bool readInputText(Cfb *cfb) {
 
 bool readInitializationVector(Cfb *cfb) {
     bool validInput = false;
-    std::string initializationVector;;
+    std::string initializationVector = "abcdefgh";
 
-    std::cout << "Enter initialization vector(4 bytes):";
-    std::getline(std:: cin, initializationVector);
+   // std::cout << "Enter initialization vector(4 bytes):";
+    //std::getline(std:: cin, initializationVector);
 
     if (!cfb->validateAndSetInitializationVector(initializationVector)) {
         std::cout << "Error while saving initialization vector. Please try again." << std::endl;
@@ -81,10 +81,10 @@ bool readInitializationVector(Cfb *cfb) {
 
 bool readKey(Cfb *cfb) {
     bool validInput = false;
-    std::string key;
+    std::string key = "ijklmnop";
 
-    std::cout << "Enter key(4 bytes):";
-    std::getline(std:: cin, key);
+    //std::cout << "Enter key(4 bytes):";
+    //std::getline(std:: cin, key);
 
     if (!cfb->validateAndSetKey(key)) {
         std::cout << "Error while saving key. Press try again." << std::endl;

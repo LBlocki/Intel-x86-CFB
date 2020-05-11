@@ -2,47 +2,63 @@ global _cipher
 extern printf
 section .text
 _cipher:
-    push ebp
-    mov ebp, esp
-    mov eax, [ebp + 8] ;text
-    mov ecx, [ebp + 12]	; vector
-    mov edx, [ebp + 16]	; key
+    push rbp
+    mov rbp, rsp
 
 loop:
-    mov byte bl, [eax]	; check if 0 on first byte
-    cmp byte bl, 0
+    ;rcx is text
+    ; r8 is key
+    ; rdx is vector
+
+    mov byte dil, [rcx]	; check if end of string on first byte
+    cmp byte dil, 0
     je exit
 
-    mov byte bl, [eax + 1]	; check if 0 on second byte
-    cmp byte bl, 0
+    mov byte dil, [rcx + 1]	; check if end of string on second byte
+    cmp byte dil, 0
     je lastSave
 
-    mov byte bl, [eax + 2]	; check if 0 on third byte
-    cmp byte bl, 0
+    mov byte dil, [rcx + 2]	; check if end of string on third byte
+    cmp byte dil, 0
     je lastSave
 
-    mov byte bl, [eax + 3]	; check if 0 on fourth byte
-    cmp byte bl, 0
+    mov byte dil, [rcx + 3]	; check if end of string on fourth byte
+    cmp byte dil, 0
     je lastSave
 
-    mov edi, [ecx]
-    xor edi, [edx]    	; xor values, we get ciphered block
-    xor edi, [eax]    	; xor 4 bytes of text with ciphered block
-    mov [eax], edi  	; save result in text
-    mov [ecx], edi	; now vector is ciphered text
+    mov byte dil, [rcx + 4]	; check if end of string on 5 byte
+    cmp byte dil, 0
+    je lastSave
 
-    add eax, 4  ; go to the next 32 bits
+    mov byte dil, [rcx + 5]	; check if end of string on 6 byte
+    cmp byte dil, 0
+    je lastSave
+
+    mov byte dil, [rcx + 6]	; check if end of string on 7  byte
+    cmp byte dil, 0
+    je lastSave
+
+    mov byte dil, [rcx + 7]	; check if end of string on 8 byte
+    cmp byte dil, 0
+    je lastSave
+
+    mov rdi,  [r8]      ; set rdi to key value
+    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
+    xor rdi,  [rcx]    	; xor cihered block with plain text
+    mov [rdx], rdi	    ; set vector to new ciphered text
+    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
+
+    add rcx, 8          ;go to the next 64 bits
     jmp loop
 
 lastSave:
-    mov edi, [ecx]
-    xor edi, [edx]    ; xor values, we get ciphered block
-    xor edi, [eax]    ; xor 4 bytes of text with ciphered block, now vector is ciphered text
-    mov [eax], edi  ; save result in text
-    mov [ecx], edi
+    mov rdi,  [r8]      ; set rdi to key value
+    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
+    xor rdi,  [rcx]    	; xor cihered block with plain text
+    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
 
 exit:
-    mov esp, ebp
-    pop ebp
+    mov rsp, rbp
+    pop rbp
     ret
 
