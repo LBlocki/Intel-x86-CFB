@@ -3,7 +3,7 @@
 #include <cstring>
 #include "cfb.h"
 
-extern "C" char * _cipher(char *text, char *vector, char *key);
+extern "C" void _cipher(char *text, char *vector, char *key);
 extern "C" void _decipher(char *text, char *vector, char *key);
 
 bool Cfb::isInputTextValid(const std::string &newInputText) {
@@ -68,12 +68,20 @@ void Cfb::performCipher() {
         char * cText = new char [this->inputText.length()+1];
         char * cVector = new char [this->initializationVector.length()+1];
         char * cKey = new char [this->key.length()+1];
-        std::strcpy (cText, this->inputText.c_str());
-        std::strcpy (cVector, this->initializationVector.c_str());
-        std::strcpy (cKey, this->key.c_str());
+        std::copy(this->inputText.begin(),  this->inputText.end(), cText);
+        std::copy(this->initializationVector.begin(),  this->initializationVector.end(), cVector);
+        std::copy(this->key.begin(),  this->key.end(), cKey);
+	cText[this->inputText.size()] = '\0';
+	cVector[this->initializationVector.size()] = '\0';
+	cKey[this->key.size()] = '\0';
 
-        printf("%s",_cipher(cText, cVector, cKey));
+        _cipher(cText, cVector, cKey);
+	std:: cout << cText;
 	std::cout<<std::endl;
+
+	delete[] cText;
+	delete[] cVector;
+	delete[] cKey;
     }
 }
 
