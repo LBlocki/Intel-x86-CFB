@@ -10,35 +10,19 @@ loop:
     ; r8 is key
     ; rdx is vector
 
-    mov byte dil, [rcx]	; check if end of string on first byte
+    mov byte dil, [rcx + 4]	; check if end of string on first byte
     cmp byte dil, 0
     je exit
 
-    mov byte dil, [rcx + 1]	; check if end of string on second byte
+    mov byte dil, [rcx + 5]	; check if end of string on second byte
     cmp byte dil, 0
     je lastSave
 
-    mov byte dil, [rcx + 2]	; check if end of string on third byte
+    mov byte dil, [rcx + 6]	; check if end of string on third byte
     cmp byte dil, 0
     je lastSave
 
-    mov byte dil, [rcx + 3]	; check if end of string on fourth byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov byte dil, [rcx + 4]	; check if end of string on 5 byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov byte dil, [rcx + 5]	; check if end of string on 6 byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov byte dil, [rcx + 6]	; check if end of string on 7  byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov byte dil, [rcx + 7]	; check if end of string on 8 byte
+    mov byte dil, [rcx + 7]	; check if end of string on fourth byte
     cmp byte dil, 0
     je lastSave
 

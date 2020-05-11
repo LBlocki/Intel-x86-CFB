@@ -11,11 +11,11 @@ bool Cfb::isInputTextValid(const std::string &newInputText) {
 }
 
 bool Cfb::isKeyValid(const std::string &newInitializationVector) {
-    return Cfb::validateString(newInitializationVector) && newInitializationVector.length() == 8;
+    return Cfb::validateString(newInitializationVector) && newInitializationVector.length() == 4;
 }
 
 bool Cfb::isInitializationVectorValid(const std::string &newKey) {
-    return Cfb::validateString(newKey) && newKey.length() == 8;
+    return Cfb::validateString(newKey) && newKey.length() == 4;
 }
 
 bool Cfb::validateAndSetInputText(const std::string &newInputText) {
@@ -53,11 +53,11 @@ void Cfb::performDecipher() {
         std::copy(this->inputText.begin(),  this->inputText.end(), cText);
         std::copy(this->initializationVector.begin(),  this->initializationVector.end(), cVector);
         std::copy(this->key.begin(),  this->key.end(), cKey);
-	cText[this->inputText.size()] = '\0';
-	cVector[this->initializationVector.size()] = '\0';
-	cKey[this->key.size()] = '\0';
-        _decipher(cText, cVector, cKey);
-	std:: cout << "Deciphered text: "<<cText << std::endl;
+	    cText[this->inputText.size()] = '\0';
+	    cVector[this->initializationVector.size()] = '\0';
+	    cKey[this->key.size()] = '\0';
+            _decipher(cText, cVector, cKey);
+	    std:: cout << "Deciphered text: "<<cText << std::endl;
 
 	delete[] cText;
 	delete[] cVector;
@@ -76,11 +76,11 @@ void Cfb::performCipher() {
         std::copy(this->inputText.begin(),  this->inputText.end(), cText);
         std::copy(this->initializationVector.begin(),  this->initializationVector.end(), cVector);
         std::copy(this->key.begin(),  this->key.end(), cKey);
-	cText[this->inputText.size()] = '\0';
-	cVector[this->initializationVector.size()] = '\0';
-	cKey[this->key.size()] = '\0';
-        _cipher(cText, cVector, cKey);
-	std:: cout << "Ciphered text: "<<cText << std::endl;
+	    cText[this->inputText.size()] = '\0';
+	    cVector[this->initializationVector.size()] = '\0';
+	    cKey[this->key.size()] = '\0';
+            _cipher(cText, cVector, cKey);
+	    std:: cout << "Ciphered text: "<<cText << std::endl;
 
 	delete[] cText;
 	delete[] cVector;
