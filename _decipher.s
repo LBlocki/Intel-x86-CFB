@@ -3,26 +3,25 @@ section .text
 _decipher:
     push rbp
     mov rbp, rsp
-
-        ;rcx is text
-        ; r8 is key
-        ; rdx is vector
-        ; r9 is text length
+        ; on linux rdi is text
+        ; on linux rdx is key
+        ; on linux rsi is vector
+        ; on linux rcx is text length
 loop:
 
-    mov edi, dword [r8]      ; set rdi to key value
-    xor edi, dword [rdx]    	; xor rdi ( key ) with vector
+    mov r8d, dword [rdx]      ; set r8d to key value
+    xor r8d, dword [rsi]    	; xor r8d ( key ) with vector
 
-    mov esi, dword [rcx]
-    mov dword [rdx], esi      ; set vector to ciphered text
+    mov r9d, dword [rdi]
+    mov dword [rsi], r9d      ; set vector to ciphered text
 
-    xor edi, dword [rcx]    	; xor cihered block with plain text
-    mov dword [rcx], edi  	; modify 4 bytes of plain text as ciphered text
+    xor r8d, dword [rdi]    	; xor cihered block with plain text
+    mov dword [rdi], r8d  	; modify 4 bytes of plain text as ciphered text
 
-    add rcx, 4    ; move to the next 32 bytes
+    add rdi, 4    ; move to the next 32 bytes
 
-    sub r9, 4   ; substract 4 from amount of text left
-    cmp r9, 0   ; if none left, then exit, otherwise continue the loop
+    sub rcx, 4   ; substract 4 from amount of text left
+    cmp rcx, 0   ; if none left, then exit, otherwise continue the loop
     jg loop
 
 exit:
