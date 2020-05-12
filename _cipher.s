@@ -1,47 +1,29 @@
 global _cipher
-extern printf
 section .text
 _cipher:
     push rbp
     mov rbp, rsp
 
-loop:
-    ;rcx is text
+    ; rcx is text
     ; r8 is key
     ; rdx is vector
+    ; r9 is text length
+loop:
 
-    mov byte dil, [rcx + 4]	; check if end of string on first byte
-    cmp byte dil, 0
-    je exit
+    mov edi, dword [r8]      ; set rdi to key value
+    xor edi, dword [rdx]    	; xor rdi ( key ) with vector
+    xor edi, dword [rcx]    	; xor cihered block with plain text
+    mov dword [rcx], edi  	; modify 4 bytes of plain text as ciphered text
+    mov dword [rdx], edi	    ; set vector to new ciphered text
 
-    mov byte dil, [rcx + 5]	; check if end of string on second byte
-    cmp byte dil, 0
-    je lastSave
+    add rcx, 4    ; move to the next 32 bytes
 
-    mov byte dil, [rcx + 6]	; check if end of string on third byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov byte dil, [rcx + 7]	; check if end of string on fourth byte
-    cmp byte dil, 0
-    je lastSave
-
-    mov rdi,  [r8]      ; set rdi to key value
-    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
-    xor rdi,  [rcx]    	; xor cihered block with plain text
-    mov [rdx], rdi	    ; set vector to new ciphered text
-    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
-
-    add rcx, 8          ;go to the next 64 bits
-    jmp loop
-
-lastSave:
-    mov rdi,  [r8]      ; set rdi to key value
-    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
-    xor rdi,  [rcx]    	; xor cihered block with plain text
-    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
+    sub r9, 4   ; substract 4 from amount of text left
+    cmp r9, 0   ; if none left, then exit, otherwise continue the loop
+    jg loop
 
 exit:
+
     mov rsp, rbp
     pop rbp
     ret

@@ -1,48 +1,29 @@
 global _decipher
-extern printf
 section .text
 _decipher:
     push rbp
     mov rbp, rsp
+
+        ;rcx is text
+        ; r8 is key
+        ; rdx is vector
+        ; r9 is text length
 loop:
 
-    mov byte dil, [rcx + 4]	; check if end of string on first byte
-    cmp byte dil, 0
-    je exit
+    mov edi, dword [r8]      ; set rdi to key value
+    xor edi, dword [rdx]    	; xor rdi ( key ) with vector
 
-    mov byte dil, [rcx + 5]	; check if end of string on second byte
-    cmp byte dil, 0
-    je lastSave
+    mov esi, dword [rcx]
+    mov dword [rdx], esi      ; set vector to ciphered text
 
-    mov byte dil, [rcx + 6]	; check if end of string on third byte
-    cmp byte dil, 0
-    je lastSave
+    xor edi, dword [rcx]    	; xor cihered block with plain text
+    mov dword [rcx], edi  	; modify 4 bytes of plain text as ciphered text
 
-    mov byte dil, [rcx + 7]	; check if end of string on fourth byte
-    cmp byte dil, 0
-    je lastSave
+    add rcx, 4    ; move to the next 32 bytes
 
-    mov rdi,  [r8]      ; set rdi to key value
-    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
-
-    mov rsi, [rcx]
-    mov [rdx], rsi      ; set vector to ciphered text
-
-    xor rdi,  [rcx]    	; xor cihered block with plain text
-    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
-
-    add rcx, 8  ; go to the next 32 bits
-    jmp loop
-
-lastSave:
-    mov rdi,  [r8]      ; set rdi to key value
-    xor rdi,  [rdx]    	; xor rdi ( key ) with vector
-
-    mov rsi, [rcx]
-    mov [rdx], rsi      ; set vector to ciphered text
-
-    xor rdi,  [rcx]    	; xor cihered block with plain text
-    mov [rcx], rdi  	; modify 8 bytes of plain text as ciphered text
+    sub r9, 4   ; substract 4 from amount of text left
+    cmp r9, 0   ; if none left, then exit, otherwise continue the loop
+    jg loop
 
 exit:
     mov rsp, rbp
